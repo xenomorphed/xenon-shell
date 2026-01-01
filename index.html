@@ -1,287 +1,395 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>xenomorphed — Cloud Engineering</title>
-    <meta name="description" content="xenomorphed — облачные решения: архитектура, миграция, DevOps, безопасность и оптимизация инфраструктуры." />
-    <meta name="keywords" content="cloud engineering, DevOps, облако, миграция, AWS, GCP, Azure, Kubernetes" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="xenomorphed — Cloud Engineering" />
-    <meta property="og:description" content="Архитектура облака, миграции, автоматизация CI/CD, безопасность и оптимизация затрат." />
-    <meta property="og:type" content="website" />
-
-    <!-- Favicon simple SVG (inlined) -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23000000' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='57' font-size='48' text-anchor='middle' fill='%23ffffff' font-family='Arial'%3EX%3C/text%3E%3C/svg%3E">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xenon Shell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.css">
+    <link rel="icon" type="image/svg" href="icon.svg">
 
     <style>
-        :root{
-            --bg:#050708;
-            --card:#0b0e10;
-            --muted:#7ea2a1;
-            --accent:#6fbebc;
-            --glass:rgba(255,255,255,0.04);
-            --max-width:1100px;
-            --radius:14px;
-            font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "JetBrains Mono", Arial;
-        }
-        *{box-sizing:border-box}
-        html,body{height:100%}
-        body{margin:0;background:var(--bg);color:#e6eef8;line-height:1.5;-webkit-font-smoothing:antialiased}
-        .container{max-width:var(--max-width);margin:0 auto;padding:32px}
-
-        header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-        .brand{display:flex;gap:12px;align-items:center}
-        .logo{width:56px;height:56px;background:linear-gradient(135deg,#0ea5a2,var(--accent));border-radius:12px;display:grid;place-items:center;font-weight:700}
-        .logo span{font-family:monospace}
-        nav a{color:#8fd3d1;text-decoration:none;margin-left:16px}
-        nav a:hover{color:#b2f0ee}
-
-        .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:42px}
-        .hero h1{font-size:40px;margin:0 0 12px}
-        .hero p.lead{color:var(--muted);margin:0 0 20px}
-        .cta-row{display:flex;gap:12px}
-        .btn{background:var(--accent);color:#022;padding:12px 18px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
-        .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-
-        .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;border: solid 2px #12191c}
-
-        .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
-        .feature h3{margin:6px 0 0}
-        .feature p{color:var(--muted);margin:8px 0 0}
-
-        /* Portfolio + contact */
-        main section{margin-top:48px}
-        .grid-2{display:grid;grid-template-columns:1fr 380px;gap:20px}
-
-        .project{background:var(--glass);padding:14px;border-radius:10px}
-        .meta{color:var(--muted);font-size:13px}
-
-        footer{margin-top:48px;padding:24px 0;color:var(--muted);font-size:14px;text-align:center}
-
-        /* Responsive */
-        @media (max-width:980px){
-            .hero{grid-template-columns:1fr;margin-top:28px}
-            .features{grid-template-columns:repeat(2,1fr)}
-            .grid-2{grid-template-columns:1fr}
-        }
-        @media (max-width:520px){
-            .features{grid-template-columns:1fr}
-            .logo{width:46px;height:46px}
-            .hero h1{font-size:28px}
+        :root {
+            --bg: #000000;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: #ffffff;
+            --secondary: #888888;
+            --font-main: 'Inter', sans-serif;
+            --font-tech: 'Space Grotesk', sans-serif;
+            --font-cmd: "JetBrains Mono", sans-serif;
         }
 
-        /* small accessibility helper */
-        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+        ::-webkit-scrollbar {
+            width: 6px; /* Ширина вертикального скроллбара */
+            height: 6px; /* Высота горизонтального */
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: var(--bg);
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--accent);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--accent);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .glow {
+            position: fixed;
+            width: 100vw;
+            height: 100vw;
+            max-width: 600px;
+            max-height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(60px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .main-container {
+            width: 80vw;
+            max-width: 80vw;
+            padding: 80px 0;
+            margin: 0 auto;
+            transition: fadeIn 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .header h1 {
+            font-family: var(--font-tech);
+            font-size: 32px;
+            letter-spacing: -0.04em;
+            margin-bottom: 8px;
+        }
+
+        /* Стили для поля рабочей папки */
+        .path-config {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .path-label {
+            font-family: var(--font-tech);
+            font-size: 10px;
+            color: var(--secondary);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .path-input {
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            font-family: var(--font-cmd);
+            font-size: 13px;
+            width: 100%;
+            outline: none;
+        }
+
+        .input-section {
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .glass-input {
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            display: block;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            color: var(--accent);
+            font-family: var(--font-main);
+            font-size: 16px;
+            transition: 0.3s ease;
+            backdrop-filter: blur(10px);
+            outline: none;
+            resize: none;
+            overflow-y: hidden;
+            line-height: 1.5;
+            box-sizing: border-box;
+        }
+
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .output-container {
+            width: 100%;
+        }
+
+        .glass-card {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            line-height: 1.6;
+            box-sizing: border-box;
+        }
+
+        .glass-card h3 {
+            font-family: var(--font-tech);
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .command {
+            font-family: var(--font-cmd);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .copy-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            padding: 0;
+            margin: 0 0 0 5px;
+            border: none;
+            background: none;
+            width: 1.2em;
+            height: 1.2em;
+            cursor: pointer;
+            color: var(--secondary);
+            transition: color 0.2s;
+        }
+
+        .copy-button:hover {
+            color: var(--accent);
+        }
+
+        .copy-button svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .loading-dots:after {
+            content: ' .';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ' .'; }
+            40% { content: ' ..'; }
+            60% { content: ' ...'; }
+            80%, 100% { content: ''; }
+        }
+
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            font-family: var(--font-tech);
+            color: #444;
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <div class="brand">
-            <div class="logo" aria-hidden="true"><span>X</span></div>
-            <div>
-                <div style="font-weight:700">xenomorphed</div>
-                <div style="font-size:13px;color:var(--muted)">Cloud Engineering &amp; DevOps</div>
-            </div>
-        </div>
-        <nav aria-label="Основная навигация">
-            <a href="#services">Услуги</a>
-            <a href="#portfolio">Портфолио</a>
-            <a href="#contact">Контакты</a>
-        </nav>
-    </header>
 
-    <section class="hero" aria-labelledby="hero-title">
-        <div>
-            <h1 id="hero-title">xenomorphed — облачная инженерия, которой Вы доверяете</h1>
-            <p class="lead">Помогаю компаниям проектировать, мигрировать и поддерживать надежную, безопасную и экономичную облачную инфраструктуру (AWS / GCP / Azure).</p>
-            <div class="cta-row">
-                <button class="btn" onclick="scrollToContact()">Связаться</button>
-                <a class="btn secondary" href="#portfolio">Посмотреть кейсы</a>
-            </div>
+<div class="glow"></div>
 
-            <div class="features" aria-hidden="false">
-                <div class="feature card">
-                    <strong>Архитектура</strong>
-                    <p>Проектирование отказоустойчивых, масштабируемых систем с IaC (Terraform, Pulumi).</p>
-                </div>
-                <div class="feature card">
-                    <strong>Автоматизация</strong>
-                    <p>CI/CD, GitOps, автоматическое развёртывание и тестирование.</p>
-                </div>
-                <div class="feature card">
-                    <strong>Безопасность &amp; Cost</strong>
-                    <p>Аудиты безопасности, политика IAM, оптимизация затрат и резервирования.</p>
-                </div>
-            </div>
+<div id="app">
+    <main class="main-container">
+        <header class="header">
+            <p style="color: var(--secondary); letter-spacing: 0.2em; text-transform: uppercase; font-size: 10px; margin-bottom: 10px;">version 1.1</p>
+            <h1>Xenon Shell</h1>
+        </header>
+
+        <div class="path-config">
+            <span class="path-label">Working dir:</span>
+            <input type="text" v-model="workingDir" class="path-input" placeholder="C:\Windows">
         </div>
 
-        <aside class="card" aria-label="Коротко обо мне">
-            <h3>Коротко обо мне</h3>
-            <p class="meta">Я — <strong>xenomorphed</strong>. Предлагаю консультации, проектирование и сопровождение облачной инфраструктуры, включая Kubernetes, серверлесс, инфраструктуру как код и процессы SRE.</p>
-            <dl style="margin-top:14px">
-                <dt class="meta">Опыт</dt>
-                <dd>Миграции, оптимизация, наблюдаемость (Prometheus/Grafana), автоматизация.</dd>
-                <dt class="meta" style="margin-top:8px">Технологии</dt>
-                <dd>Kubernetes, Terraform, Docker, Jenkins/GitHub Actions, AWS/GCP/Azure</dd>
-            </dl>
-            <div style="margin-top:12px;display:flex;gap:8px">
-                <a class="btn" href="mailto:hello@xenomorphed.dev">Написать</a>
-                <a class="btn secondary" href="#services">Услуги</a>
-            </div>
-        </aside>
-    </section>
-
-    <main>
-        <section id="services">
-            <h2>Услуги</h2>
-            <p class="meta">Гибкий набор услуг — от аудита до полного управления инфраструктурой.</p>
-            <div class="features" style="margin-top:18px">
-                <div class="feature card">
-                    <h3>Аудит и консультации</h3>
-                    <p>Оценка архитектуры, рекомендации по безопасности и стоимости.</p>
-                </div>
-                <div class="feature card">
-                    <h3>Миграции в облако</h3>
-                    <p>Планирование, исполнение и валидация миграций с минимальным простоем.</p>
-                </div>
-                <div class="feature card">
-                    <h3>DevOps / SRE</h3>
-                    <p>CI/CD, наблюдаемость, SLA/SLO, управление инцидентами и автоматизация.</p>
-                </div>
-            </div>
+        <section class="input-section">
+            <textarea
+                    v-model="prompt"
+                    class="glass-input"
+                    placeholder="What do you want me to do"
+                    @keydown.enter.exact.prevent="handleInput"
+                    @input="autoResize"
+                    rows="1"
+                    ref="inputArea"
+                    :disabled="isLoading"
+            ></textarea>
+            <p style="color: var(--secondary); font-size: 10px; margin-top: 8px; margin-left: 20px;">
+                Enter — send, Shift + Enter — new line
+            </p>
         </section>
 
-        <section id="portfolio">
-            <h2>Кейсы</h2>
-            <p class="meta">Выдержанные решения для стартапов и корпоративных клиентов.</p>
-
-            <div class="grid-2">
-                <div>
-                    <article class="project card">
-                        <h3>Миграция данных и сервисов в AWS</h3>
-                        <p class="meta">Контейнеризация, EKS, RDS, миграция баз данных с минимальной недоступностью.</p>
-                        <ul>
-                            <li>IaC: Terraform + модульная архитектура</li>
-                            <li>Непрерывная интеграция и деплоймент</li>
-                            <li>Резервирование и стратегия отката</li>
-                        </ul>
-                    </article>
-
-                    <article class="project card" style="margin-top:12px">
-                        <h3>Оптимизация затрат для SaaS</h3>
-                        <p class="meta">Анализ потребления, автоматическое масштабирование и сокращение лишних ресурсов.</p>
-                    </article>
-
-                    <article class="project card" style="margin-top:12px">
-                        <h3>Наблюдаемость и алертинг</h3>
-                        <p class="meta">Prometheus, Grafana, логирование и трассировка для быстрого разрешения инцидентов.</p>
-                    </article>
-                </div>
-
-                <aside class="card">
-                    <h4>Технические стеки</h4>
-                    <p class="meta">Kubernetes, Terraform, Docker, Prometheus, Grafana, ELK, GitHub Actions, ArgoCD</p>
-
-                    <h4 style="margin-top:12px">Отзывы</h4>
-                    <blockquote style="margin:8px 0;color:var(--muted)">"Быстро и профессионально — миграция прошла без простоев." — CTO, SaaS-company</blockquote>
-
-                    <h4 style="margin-top:12px">Нужен конкретный пример?</h4>
-                    <p class="meta">Опишите задачу — подготовлю план миграции и оценку сроков/стоимости.</p>
-                </aside>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2>Контакты</h2>
-            <p class="meta">Свяжитесь со мной — отвечаю оперативно.</p>
-
-            <div class="grid-2" style="margin-top:12px">
-                <form class="card" onsubmit="handleSubmit(event)" aria-labelledby="contact-form-title">
-                    <h3 id="contact-form-title">Отправить запрос</h3>
-                    <label for="name">Имя</label>
-                    <input id="name" name="name" type="text" required style="width:100%;padding:10px;margin-top:8px;border-radius:8px;border:0;background:rgba(255,255,255,0.02);color:inherit">
-
-                    <label for="email" style="margin-top:12px;display:block">Email</label>
-                    <input id="email" name="email" type="email" required style="width:100%;padding:10px;margin-top:8px;border-radius:8px;border:0;background:rgba(255,255,255,0.02);color:inherit">
-
-                    <label for="message" style="margin-top:12px;display:block">Сообщение</label>
-                    <textarea id="message" name="message" rows="5" required style="width:100%;padding:10px;margin-top:8px;border-radius:8px;border:0;background:rgba(255,255,255,0.02);color:inherit"></textarea>
-
-                    <div style="display:flex;gap:8px;margin-top:12px">
-                        <button class="btn" type="submit">Отправить</button>
-                        <button type="button" class="btn secondary" onclick="location.href='mailto:hello@xenomorphed.dev'">Написать на почту</button>
-                    </div>
-
-                    <p id="form-status" class="meta" style="margin-top:12px;display:none"></p>
-                </form>
-
-                <aside class="card">
-                    <h4>Прямой контакт</h4>
-                    <p class="meta">Email: <a href="mailto:hello@xenomorphed.dev" style="color:#8fd3d1">hello@xenomorphed.dev</a></p>
-                    <p class="meta">GitHub: <a href="https://github.com/xenomorphed" target="_blank" rel="noopener">github.com/xenomorphed</a></p>
-
-                    <h4 style="margin-top:12px">Частые вопросы</h4>
-                    <details>
-                        <summary>Как быстро можно начать?</summary>
-                        <p class="meta">Зависит от объёма — обычно первичный аудит занимает 3–7 дней.</p>
-                    </details>
-                    <details style="margin-top:8px">
-                        <summary>Какие файлы/доступы нужны?</summary>
-                        <p class="meta">Доступ к облачному аккаунту/архитектуре, информация о нагрузке и SLA.</p>
-                    </details>
-                </aside>
+        <section class="output-container" v-if="output || isLoading">
+            <div class="glass-card">
+                <h3>System Response</h3>
+                <div v-if="isLoading" class="loading-dots">Thinking</div>
+                <div v-else v-html="formattedOutput"></div>
             </div>
         </section>
     </main>
-
-    <footer>
-        <div class="meta">© <strong>xenomorphed</strong> — Cloud Engineering. Все права защищены.</div>
-    </footer>
 </div>
 
+<footer>
+    <span class="latex">\Psi(x,t) = A e^{i(kx-\omega t)} — xenomorphed assistant</span>
+</footer>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.js"></script>
+
 <script>
-    function scrollToContact(){
-        document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+
+    function handleLatex(content) {
+        return content.replaceAll("\\(", "<span class=\"latex\">").replaceAll("\\)", "</span>").replaceAll("\\[", "<span class=\"latex\">").replaceAll("\\]", "</span>");
     }
 
-    function handleSubmit(e){
-        e.preventDefault();
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-        const status = document.getElementById('form-status');
+    const app = Vue.createApp({
+        data() {
+            return {
+                prompt: "",
+                output: "",
+                workingDir: "C:\\Windows", // Папка по умолчанию
+                isLoading: false
+            }
+        },
+        computed: {
+            formattedOutput() {
+                return this.output;
+            }
+        },
+        methods: {
+            autoResize(event) {
+                const el = event.target;
+                el.style.height = 'auto';
+                el.style.height = el.scrollHeight + 'px';
+            },
 
-        if(!name || !email || !message){
-            status.style.display = 'block';
-            status.textContent = 'Пожалуйста, заполните все поля.';
-            return;
+            renderLatex() {
+                document.querySelectorAll("span.latex").forEach(el => {
+                    try{
+                        katex.render(el.textContent, el, {throwOnError: false});
+                    } catch(e) { console.warn(e); }
+                })
+            },
+
+            renderCommands() {
+                document.querySelectorAll("span.command").forEach(el => {
+                    if (el.nextElementSibling?.classList.contains('copy-button')) return;
+
+                    const button = document.createElement("button");
+                    button.className = "copy-button";
+                    button.title = "Run command"
+                    button.innerHTML = `<svg width="46" height="46" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.636 7.758 7.05 6.344 12.707 12 7.05 17.657l-1.414-1.414 4.242-4.242-4.242-4.243Z"></path><path d="m12.707 6.344-1.414 1.414 4.243 4.243-4.243 4.242 1.414 1.414 5.657-5.656-5.657-5.657Z"></path></svg>`;
+
+                    button.onclick = () => {
+                        window.myAPI.runCommand(el.textContent).then(() => {
+                            const original = button.innerHTML;
+                            button.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m5 12 5 5L20 7"></path></svg>`;
+                            setTimeout(() => button.innerHTML = original, 1000);
+                        }).catch((e) => console.error(e));
+                    };
+                    el.after(button);
+                });
+            },
+
+            handleInput() {
+                if (!this.prompt.trim()) return;
+
+                this.isLoading = true;
+                this.output = "";
+
+                // Обновленный системный промпт с учетом рабочей папки
+                const systemPrompt = `You are an AI assistant on a Windows PC.
+                The current working directory is: "${this.workingDir}".
+                When I ask to perform a task, assume I am in this directory.
+                Include any shell commands into your answer and put them inside a <span class="command"> tag.
+                Answer in the language of the user query.
+                Query: `;
+
+                const url = `https://text.pollinations.ai/${encodeURIComponent(systemPrompt + this.prompt)}`;
+
+                fetch(url)
+                    .then(res => res.text())
+                    .then(data => {
+                        this.output = handleLatex(data);
+                        this.isLoading = false;
+                        this.prompt = "";
+
+                        this.$nextTick(() => {
+                            this.renderLatex();
+                            this.renderCommands();
+                            const el = this.$refs.inputArea;
+                            if (el) el.style.height = 'auto';
+                        });
+                    })
+                    .catch(err => {
+                        this.output = `Ошибка: ${err.message}`;
+                        this.isLoading = false;
+                    });
+            }
         }
+    });
 
-        // По умолчанию используем mailto как простой способ отправки.
-        // Для производства: подключите бэкенд / API и замените логику ниже.
-        const subject = encodeURIComponent('Запрос от ' + name + ' (с сайта xenomorphed)');
-        const body = encodeURIComponent(message + '\n\nКонтакт: ' + email);
-        window.location.href = `mailto:hello@xenomorphed.dev?subject=${subject}&body=${body}`;
+    app.mount('#app');
 
-        status.style.display = 'block';
-        status.textContent = 'Открывается почтовый клиент...';
-    }
-</script>
-
-<!-- Structured data (JSON-LD) для поисковых систем -->
-<script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "xenomorphed",
-        "description": "Cloud engineering — архитектура облака, миграции, DevOps, безопасность и оптимизация инфраструктуры.",
-        "url": "https://xenomorphed.dev",
-        "email": "mailto:hello@xenomorphed.dev",
-        "sameAs": ["https://github.com/xenomorphed"]
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+        const el = document.querySelector(".latex");
+        if (typeof katex !== 'undefined' && el) {
+            katex.render(el.textContent.split(' — ')[0], el);
+        }
+    });
 </script>
 </body>
 </html>

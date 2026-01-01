@@ -1,10 +1,35 @@
 {
-  "name": "xenomorphed-web",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "build": {
+    "appId": "com.xenon.shell",
+    "productName": "Xenon Shell",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    }
   },
-  "private": true
+  "type": "module",
+  "dependencies": {
+    "@huggingface/transformers": "^3.8.1"
+  },
+  "devDependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.0.12"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "name": "xenon-shell",
+  "version": "1.0.0",
+  "description": "AI-powered command prompt",
+  "main": "index.js",
+  "keywords": [],
+  "author": "xenomorphed",
+  "license": "ISC"
 }
