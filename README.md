@@ -4,23 +4,23 @@ Useful AI agent. Xenon Shell can do anything regular command prompt can, but exc
   * Read, analyse and edit your code
   * Create, edit and delete directories and files
 
-# Works on
+## Works on
   * **HTML/CSS** - UI
   * **Vue** - UX
   * **Node.js** - backend
   * **pollinations.ai** - text generation API
 
-# Features
+## Features
   + Completely ree
   + Works online - no supercomputer required
 
-# How to use
+## How to use
  * **Option 1**: Install and run
    + Full functional
  * **Option 2**: Open index.html in your browser
    + Only text generation
 
-# How to install
+## How to install
   * Traditional way
     1. Go to https://xenomorphed.usite.pro/xenon-shell/
     2. Click "Download"
