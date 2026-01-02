@@ -38,8 +38,15 @@ Useful AI agent. Xenon Shell can do anything regular command prompt can, but exc
        ```
     3. Build
        ```
+       npm install electron --save-dev
+       npm install electron-builder
        npm run build
        ```
     4. Run the installer from ./dist
     5. Done
+
+## Contribute
+I'm not him in this stuff, so I'd be really happy if you could help me to improve the project or teach me something 
+ + App icon is kinda terrible - if you can/want you can make a better one
+ + If you know how to improve UI/UX of the project - let me know in Telegram found on https://xenomorphed.usite.pro/
 
