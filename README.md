@@ -22,7 +22,7 @@ Useful AI agent. Xenon Shell can do anything regular command prompt can, but exc
 
 ## How to install
   * Traditional way
-    1. Go to https://xenomorphed.usite.pro/xenon-shell/
+    1. Go to https://xenomorphed.usite.pro/xenon-shell.html
     2. Click "Download"
     3. Done
    
