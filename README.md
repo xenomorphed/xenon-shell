@@ -11,7 +11,7 @@ Useful AI agent. Xenon Shell can do anything regular command prompt can, but exc
   * **pollinations.ai** - text generation API
 
 ## Features
-  + Completely ree
+  + Completely free
   + Works online - no supercomputer required
 
 ## How to use
